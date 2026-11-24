@@ -10,6 +10,10 @@ A lightweight text-to-speech studio powered by Google Gemini. Create voiceovers,
 
 The server uses the configured key by default. Users can optionally connect their own Gemini key from Voice settings. Their key is kept in that browser session and sent to the app server for connection checks and audio generation; it is not written to `.env` or saved by the app server.
 
+## Public deployment
+
+The included `render.yaml` deploys the full Node.js app as a Render web service. Create a Blueprint from this GitHub repository in Render and provide `GEMINI_API_KEY` in the setup prompt. Render keeps that secret as a service environment variable; do not add it to GitHub. The service listens on Render's assigned port and binds to the public interface.
+
 Create or manage keys in [Google AI Studio](https://aistudio.google.com/apikey). Generating speech sends the script to Gemini and uses the selected Gemini project's quota and billing.
 
 ## Features

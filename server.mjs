@@ -18,6 +18,7 @@ try {
 } catch (error) { if (error.code !== 'ENOENT') throw error; }
 
 const port = Number(process.env.PORT || 4173);
+const host = process.env.HOST || '127.0.0.1';
 const appApiKey = process.env.GEMINI_API_KEY?.trim();
 const voices = ['Kore', 'Puck', 'Charon', 'Fenrir', 'Aoede', 'Leda', 'Orus', 'Zephyr'];
 const languageNames = { hi: 'Hindi', en: 'English', mr: 'Marathi', ta: 'Tamil', te: 'Telugu', bn: 'Bengali', ur: 'Urdu', es: 'Spanish' };
@@ -139,7 +140,7 @@ const server = createServer(async (req, res) => {
   }
 });
 
-server.listen(port, '127.0.0.1', () => {
-  console.log(`GOKESU Voice Studio is ready at http://localhost:${port}`);
+server.listen(port, host, () => {
+  console.log(`GOKESU Voice Studio is ready at http://${host}:${port}`);
   if (!appApiKey) console.log('Connect a Gemini API key in the app to enable cloud voice generation.');
 });
