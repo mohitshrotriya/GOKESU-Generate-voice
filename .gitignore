@@ -1,4 +1,7 @@
 .env
+.env.local
+.env.*.local
+.vercel/
 node_modules/
 *.mp3
 *.wav
