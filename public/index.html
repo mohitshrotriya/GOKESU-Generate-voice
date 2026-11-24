@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f8f5" />
+    <meta name="description" content="GOKESU — create natural voiceovers from your words." />
+    <title>GOKESU — Voice Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#studio" aria-label="GOKESU Voice Studio home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span><span>GOKESU<span class="brand-dot">.</span></span></a>
+        <div class="header-actions">
+          <span class="connection-status" id="studioStatus"><i></i><span>Checking connection</span></span>
+          <button class="icon-button theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><span id="themeIcon" aria-hidden="true">☾</span><span class="theme-label" id="themeLabel">Dark</span></button>
+          <button class="icon-button help-button" id="helpButton" type="button" aria-label="Help" title="Help">?</button>
+        </div>
+      </header>
+
+      <main class="main-content" id="studio">
+        <section class="intro">
+          <div class="eyebrow">VOICE STUDIO <span></span> TEXT TO SPEECH</div>
+          <h1>Give your words <em>a voice.</em></h1>
+          <p>Write or paste a script, choose how it should sound, and create your voiceover.</p>
+        </section>
+
+        <section class="studio-grid" aria-label="Voice generation studio">
+          <article class="panel script-panel">
+            <div class="panel-heading"><div><span class="step">01</span><h2>Your script</h2></div><button class="icon-button clear-button" id="clearButton" type="button" title="Clear script" aria-label="Clear script">Clear</button></div>
+            <label class="sr-only" for="scriptInput">Text to turn into speech</label>
+            <textarea id="scriptInput" maxlength="20000" placeholder="Type something worth listening to…&#10;&#10;Your story, idea, or message starts here."></textarea>
+            <div class="script-meta"><span><b id="wordCount">0</b> words</span><span>·</span><span><b id="charCount">0</b> / 20,000</span><span>·</span><span id="timeEstimate">~ 0 sec</span></div>
+            <div class="script-footer"><span id="draftStatus">Draft stays in this browser</span><div class="script-actions"><button class="text-button" id="sampleButton" type="button">Insert sample</button><kbd>Ctrl</kbd><span>+</span><kbd>Enter</kbd><span>to generate</span></div></div>
+          </article>
+
+          <article class="panel settings-panel">
+            <div class="panel-heading"><div><span class="step">02</span><h2>Voice settings</h2></div><span class="provider-badge">GEMINI</span></div>
+            <div class="key-option-row"><span id="keyModeLabel">GOKESU Gemini key</span><button class="text-button" id="manageKeyButton" type="button">Use your own key</button></div>
+            <div class="key-setup" id="keySetup" hidden>
+              <label for="apiKeyInput">Gemini API key</label>
+              <div class="key-entry"><input id="apiKeyInput" type="password" autocomplete="off" spellcheck="false" placeholder="Paste your Gemini API key"><button id="connectButton" type="button">Connect key</button></div>
+              <div class="key-setup-actions"><button class="text-button" id="useAppKeyButton" type="button" hidden>Use GOKESU key</button><button class="text-button" id="cancelKeyButton" type="button">Cancel</button></div>
+              <p>Your key is kept for this browser session and is not saved to GOKESU’s .env file. It is sent to the app server when you connect or generate audio.</p>
+            </div>
+            <div class="field-group">
+              <div class="field-heading"><label for="voiceSelect">Voice</label><button class="text-button" id="refreshVoices" type="button">Refresh</button></div>
+              <div class="select-wrap"><select id="voiceSelect"><option value="">Choose a voice</option></select><span aria-hidden="true">⌄</span></div>
+              <p class="field-help" id="voiceCaption">Choose a voice for your script.</p>
+            </div>
+            <div class="field-group two-columns">
+              <div><div class="field-heading"><label for="modelSelect">Model</label></div><div class="select-wrap"><select id="modelSelect"><option value="gemini-3.8-flash-tts">Flash TTS · Studio</option><option value="gemini-3.8-flash-lite-tts">Flash Lite · Fast</option></select><span aria-hidden="true">⌄</span></div></div>
+              <div><div class="field-heading"><label for="languageSelect">Output language</label></div><div class="select-wrap"><select id="languageSelect"><option value="hi">Hindi</option><option value="en">English</option><option value="mr">Marathi</option><option value="ta">Tamil</option><option value="te">Telugu</option><option value="bn">Bengali</option><option value="ur">Urdu</option><option value="es">Spanish</option></select><span aria-hidden="true">⌄</span></div></div>
+            </div>
+            <div class="field-group"><div class="field-heading"><label for="styleInput">Delivery style <span class="optional">Optional</span></label></div><input class="style-input" id="styleInput" type="text" maxlength="300" placeholder="e.g. warm, calm, confident"></div>
+            <button class="generate-button" id="generateButton" type="button"><span class="generate-icon" aria-hidden="true">✦</span><span>Create voice</span><span class="button-arrow" aria-hidden="true">→</span></button>
+            <button class="preview-button" id="previewButton" type="button" hidden>Play free browser preview</button>
+            <p class="privacy-note">Your script is sent to Gemini only when you create audio.</p>
+          </article>
+        </section>
+
+        <section class="output-section" id="outputSection" hidden>
+          <article class="panel output-panel"><div class="output-icon" aria-hidden="true">♫</div><div class="output-info"><span>YOUR AUDIO</span><strong>Your voice is ready</strong><small id="outputMeta">WAV · AI-generated</small></div><audio id="audioPlayer" controls></audio><a class="download-button" id="downloadButton" download="gokesu-voice.wav" href="#">Download WAV <span aria-hidden="true">↓</span></a></article>
+        </section>
+        <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
+        <footer class="page-footer"><span>GOKESU</span><span>Made by Mohit · © 2026</span></footer>
+      </main>
+    </div>
+
+    <dialog class="info-dialog" id="infoDialog"><form method="dialog"><button class="dialog-close" aria-label="Close" title="Close">×</button><span class="dialog-kicker">GOKESU VOICE STUDIO</span><h2>Create a voiceover</h2><p>Write your script, choose a voice and language, then create and download your WAV audio.</p><ol><li>Connect a Gemini API key.</li><li>Choose voice and delivery options.</li><li>Select <b>Create voice</b> to generate audio.</li></ol><a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">Open Google AI Studio ↗</a></form></dialog>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>
